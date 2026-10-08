@@ -120,12 +120,14 @@
     footer: '«West Multi Trade» ЖШС. Lenovo-ның Қазақстандағы ресми Gold серіктесі.',
 
     mail_kp: 'Коммерциялық ұсыныс сұрауы',
-    mail_prefix: 'Баға сұрауы: '
+    mail_prefix: 'Баға сұрауы: ',
+    wa_text: 'Сәлеметсіз бе! Мен wmtrade.kz сайтынан жазып отырмын.'
   };
 
   var RU = {
     mail_kp: 'Запрос коммерческого предложения',
-    mail_prefix: 'Запрос цены: '
+    mail_prefix: 'Запрос цены: ',
+    wa_text: 'Здравствуйте! Пишу вам с сайта wmtrade.kz.'
   };
 
   var textEls = document.querySelectorAll('[data-i18n]');
@@ -161,6 +163,11 @@
       el.href = key === 'mail_kp' ? mailto(dict.mail_kp) : mailto(dict.mail_prefix + dict[key] + ' Lenovo');
     });
 
+    // WhatsApp с приветственным сообщением
+    document.querySelectorAll('[data-wa]').forEach(function (el) {
+      el.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(dict.wa_text);
+    });
+
     document.querySelectorAll('.lang__btn').forEach(function (b) {
       var active = b.getAttribute('data-lang') === lang;
       b.classList.toggle('is-active', active);
@@ -180,8 +187,6 @@
   var initial = urlLang === 'kk' || urlLang === 'ru' ? urlLang : saved;
   setLang(initial === 'kk' ? 'kk' : 'ru');
 
-  // WhatsApp
-  document.querySelectorAll('[data-wa]').forEach(function (el) { el.href = 'https://wa.me/' + WHATSAPP; });
 
   // Мобильное меню
   var header = document.querySelector('.header');
