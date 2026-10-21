@@ -3,7 +3,6 @@
 
   // Номер WhatsApp: только цифры, с кодом страны (пример: 77011234567)
   var WHATSAPP = '77714052244';
-  var EMAIL = 'sales@wmtrade.kz';
 
   document.documentElement.classList.add('js');
 
@@ -119,14 +118,14 @@
     ct_phone_l: 'Кеңсе телефоны',
     footer: '«West Multi Trade» ЖШС. Lenovo-ның Қазақстандағы ресми Gold серіктесі.',
 
-    mail_kp: 'Коммерциялық ұсыныс сұрауы',
-    mail_prefix: 'Баға сұрауы: ',
+    wa_kp: 'Коммерциялық ұсыныс алғым келеді.',
+    wa_price: 'Бағасын білгім келеді: ',
     wa_text: 'Сәлеметсіз бе! Мен wmtrade.kz сайтынан жазып отырмын.'
   };
 
   var RU = {
-    mail_kp: 'Запрос коммерческого предложения',
-    mail_prefix: 'Запрос цены: ',
+    wa_kp: 'Хочу получить коммерческое предложение.',
+    wa_price: 'Хочу узнать цену: ',
     wa_text: 'Здравствуйте! Пишу вам с сайта wmtrade.kz.'
   };
 
@@ -139,10 +138,6 @@
     var p = el.getAttribute('data-i18n-attr').split(':');
     RU[p[1]] = el.getAttribute(p[0]);
   });
-
-  function mailto(subject) {
-    return 'mailto:' + EMAIL + '?subject=' + encodeURIComponent(subject);
-  }
 
   function setLang(lang) {
     var dict = lang === 'kk' ? KK : RU;
@@ -157,15 +152,17 @@
       if (dict[p[1]] != null) el.setAttribute(p[0], dict[p[1]]);
     });
 
-    // Темы писем: КП или «Запрос цены: <категория>»
-    document.querySelectorAll('[data-mail]').forEach(function (el) {
-      var key = el.getAttribute('data-mail');
-      el.href = key === 'mail_kp' ? mailto(dict.mail_kp) : mailto(dict.mail_prefix + dict[key] + ' Lenovo');
+    // WhatsApp с приветственным сообщением (+ доп. фраза, если указан ключ в data-wa)
+    document.querySelectorAll('[data-wa]').forEach(function (el) {
+      var key = el.getAttribute('data-wa');
+      var text = key ? dict.wa_text + ' ' + dict[key] : dict.wa_text;
+      el.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(text);
     });
 
-    // WhatsApp с приветственным сообщением
-    document.querySelectorAll('[data-wa]').forEach(function (el) {
-      el.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(dict.wa_text);
+    // WhatsApp из карточек каталога: приветствие + «Хочу узнать цену: <категория>»
+    document.querySelectorAll('[data-wa-price]').forEach(function (el) {
+      var text = dict.wa_text + ' ' + dict.wa_price + dict[el.getAttribute('data-wa-price')] + ' Lenovo';
+      el.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(text);
     });
 
     document.querySelectorAll('.lang__btn').forEach(function (b) {
