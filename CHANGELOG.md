@@ -2,6 +2,13 @@
 
 ## 2026-10-21 — SEO-доработки
 
+Коммит `cdd6359`. Проверено локально в браузере: переключение RU/KZ, ссылки WhatsApp, окно сертификатов — работают, ошибок в консоли нет.
+
+Аудит живого сайта wmtrade.kz на момент правок:
+- `https://wmtrade.kz`, `https://www.wmtrade.kz` и `/index.html` отдают одну страницу (200) — дубли;
+- `http` → `https` редирект есть, gzip и кеш картинок включены;
+- `robots.txt` на сервере — старый от Joomla, `sitemap.xml` — 404 (до выкладки новых файлов).
+
 - `index.html`:
   - новый title с поисковыми словами (RU и KZ, казахский — в `assets/js/main.js`);
   - `canonical` на `https://wmtrade.kz/`, `meta robots`;
